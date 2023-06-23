@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en" xmlns:sec="http://www.thymeleaf.org/extras/spring-security" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1" name="viewport">
+
+  <title>User</title>
+</head>
+<body>
+<div>
+  <div>
+    <div>
+      <h1>Welcome!</h1>
+      <div>Username: <span sec:authentication="principal.username"/></div>
+      <div> Roles: <span sec:authentication="principal.authorities"/></div>
+
+      <div><a th:href="@{/logout}">Logout</a></div>
+    </div>
+  </div>
+</div>
+
+<div>
+  <div>
+    <h2>Cart:</h2>
+  </div>
+  <a th:href="@{/user/placeOrder(cardId=${cart.id})}">
+    place order
+  </a>
+  <table class="table table-bordered table-striped">
+    <thead class="table-dark">
+    <tr>
+      <th>Title</th>
+      <th>Author</th>
+      <th>Amount Available</th>
+      <th>Action</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    <tr th:each="book : ${books}">
+
+      <td th:text="${book.title}" /></td>
+      <td th:text="${book.author}" /></td>
+      <td th:text="${book.amountAvailable}" /></td>
+      <td>
+        <a th:href="@{/user/addToCart(bookId=${book.id})}">
+          remove from cart
+        </a>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+</div>
+
+
+</body>
+</html>
