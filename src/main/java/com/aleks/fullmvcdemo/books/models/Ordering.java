@@ -15,8 +15,12 @@ public class Ordering {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @ManyToOne
-    @JoinColumn(name = "shopping_cart")
+    @JoinColumn(name = "shopping_cart_id")
     private ShoppingCart shoppingCart;
     @Column(nullable = false)
     private OrderingState orderingState;
+    public Ordering(ShoppingCart shoppingCart){
+        this.shoppingCart = shoppingCart;
+        this.orderingState = OrderingState.PENDING;
+    }
 }

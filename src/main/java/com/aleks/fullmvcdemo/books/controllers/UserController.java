@@ -53,11 +53,14 @@ public class UserController {
         User user = userService.findUserByEmail(username);
         ShoppingCart shoppingCart = user.getShoppingCart();
         if(shoppingCart==null){
-            shoppingCart = new ShoppingCart();
+            System.out.println("shopping cart jest null");
+            shoppingCart = new ShoppingCart(user);
             user.setShoppingCart(shoppingCart);
             shoppingCartService.save(shoppingCart);
             userService.save(user);
         }
+        shoppingCartService.save(shoppingCart);
+        userService.save(user);
         List<Book> booksInCart = shoppingCart.getBooks();
         model.addAttribute("books",booksInCart);
         return "cart";
@@ -70,12 +73,26 @@ public class UserController {
         User user = userService.findUserByEmail(username);
         ShoppingCart shoppingCart = user.getShoppingCart();
         if(shoppingCart==null){
-            shoppingCart = new ShoppingCart();
+            shoppingCart = new ShoppingCart(user);
             user.setShoppingCart(shoppingCart);
             shoppingCartService.save(shoppingCart);
             userService.save(user);
         }
         List<Ordering> orderings = shoppingCart.getOrderings();
+        model.addAttribute("orderings",orderings);
+        return "user-orders";
+    }
+
+    @GetMapping("/placeOrder")
+    public String placeOrder(Model model){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();
+        User user = userService.findUserByEmail(username);
+        ShoppingCart shoppingCart = user.getShoppingCart();
+        List<Ordering> orderings = shoppingCart.getOrderings();
+        Ordering ordering = new Ordering(shoppingCart);
+        orderings.add(ordering);
+        orderingService.save(ordering);
         model.addAttribute("orderings",orderings);
         return "user-orders";
     }
@@ -87,10 +104,8 @@ public class UserController {
         User user = userService.findUserByEmail(username);
         ShoppingCart shoppingCart = user.getShoppingCart();
         if(shoppingCart==null){
-            shoppingCart = new ShoppingCart();
+            shoppingCart = new ShoppingCart(user);
             user.setShoppingCart(shoppingCart);
-            shoppingCartService.save(shoppingCart);
-            userService.save(user);
         }
         Book book = bookService.findById(bookId);
         shoppingCart.addBook(book);
@@ -107,9 +122,8 @@ public class UserController {
         User user = userService.findUserByEmail(username);
         ShoppingCart shoppingCart = user.getShoppingCart();
         if(shoppingCart==null){
-            shoppingCart = new ShoppingCart();
+            shoppingCart = new ShoppingCart(user);
             user.setShoppingCart(shoppingCart);
-            shoppingCartService.save(shoppingCart);
             userService.save(user);
         }
         Book book = bookService.findById(bookId);

@@ -11,9 +11,9 @@ import java.util.List;
 
 @Getter
 @Setter
-@AllArgsConstructor
-@NoArgsConstructor
 @Entity
+@NoArgsConstructor
+@AllArgsConstructor
 public class ShoppingCart {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -25,6 +25,11 @@ public class ShoppingCart {
     private List<Book> books;
     @OneToMany(mappedBy = "shoppingCart", cascade = CascadeType.ALL)
     private List<Ordering> orderings;
+    public ShoppingCart(User user){
+        this.books = new ArrayList<>();
+        this.orderings = new ArrayList<>();
+        this.user = user;
+    }
     public void addOrdering(Ordering ordering){
         if(this.orderings==null){
             this.orderings = new ArrayList<>();

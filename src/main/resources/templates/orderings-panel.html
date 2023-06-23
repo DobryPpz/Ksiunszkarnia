@@ -1,4 +1,13 @@
-<!doctype html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+</body>
+</html><!doctype html>
 <html lang="en" xmlns:sec="http://www.thymeleaf.org/extras/spring-security" xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="utf-8">
@@ -21,7 +30,7 @@
 
 <div>
   <div>
-    <h2>Orders:</h2>
+    <h2>All Orders:</h2>
   </div>
   <a th:href="@{/user}">
     return
@@ -31,6 +40,7 @@
     <tr>
       <th>Id</th>
       <th>State</th>
+      <th>Action</th>
     </tr>
     </thead>
 
@@ -38,6 +48,22 @@
     <tr th:each="ordering : ${orderings}">
       <td th:text="${ordering.id}" /></td>
       <td th:text="${ordering.orderingState}" /></td>
+      <td>
+        <span>
+          <a th:href="@{/admin/orderings/changeToPending(orderingId=${ordering.id})}">
+            change to PENDING
+          </a>
+          <a th:href="@{/admin/orderings/changeToAccepted(orderingId=${ordering.id})}">
+            change to ACCEPTED
+          </a>
+          <a th:href="@{/admin/orderings/changeToRejected(orderingId=${ordering.id})}" >
+            change to REJECTED
+          </a>
+          <a th:href="@{/admin/orderings/changeToSent(orderingId=${ordering.id})}">
+            change to SENT
+          </a>
+        </span>
+      </td>
     </tr>
     </tbody>
   </table>
