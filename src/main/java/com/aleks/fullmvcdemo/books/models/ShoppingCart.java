@@ -21,7 +21,12 @@ public class ShoppingCart {
     @OneToOne
     @JoinColumn(name = "user_id")
     private User user;
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(
+            name = "shopping_cart_books",
+            joinColumns = @JoinColumn(name = "shopping_cart_id"),
+            inverseJoinColumns = @JoinColumn(name = "book_id",columnDefinition = "")
+    )
     private List<Book> books;
     @OneToMany(mappedBy = "shoppingCart", cascade = CascadeType.ALL)
     private List<Ordering> orderings;

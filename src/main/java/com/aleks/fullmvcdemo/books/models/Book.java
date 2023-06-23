@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import java.util.List;
 
 @Getter
 @Setter
@@ -20,4 +21,6 @@ public class Book {
     private String author;
     @Column(nullable = false)
     private int amountAvailable;
+    @ManyToMany(mappedBy = "books", cascade = CascadeType.REMOVE)
+    private List<ShoppingCart> shoppingCarts;
 }
