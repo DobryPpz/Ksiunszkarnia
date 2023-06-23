@@ -20,27 +20,16 @@
 </div>
 
 <div>
-  <div>
-    <h2>Orders:</h2>
-  </div>
-  <a th:href="@{/user}">
-    return
-  </a>
-  <table>
-    <thead>
-    <tr>
-      <th>Id</th>
-      <th>State</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    <tr th:each="ordering : ${orderings}">
-      <td th:text="${ordering.id}" /></td>
-      <td th:text="${ordering.state}" /></td>
-    </tr>
-    </tbody>
-  </table>
+  <form action="#" th:action="@{/admin/books}" th:object="${book}" method="post">
+    <input type="hidden" th:field="*{id}">
+    <input type="text" th:field="*{title}"
+           placeholder="title">
+    <input type="text" th:field="*{author}"
+           placeholder="author">
+    <input type="number" th:field="*{amountAvailable}"
+           placeholder="amount available">
+    <button type="submit">add</button>
+  </form>
 </div>
 
 

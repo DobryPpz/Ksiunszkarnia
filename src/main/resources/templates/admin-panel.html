@@ -24,11 +24,11 @@
     <h2>Books:</h2>
   </div>
 
-  <a th:href="@{/user/cart}">
-    Your cart
+  <a th:href="@{/admin/showFormForAdding}">
+    Add new book
   </a>
-  <a th:href="@{/user/orderings}">
-    Your orderings
+  <a th:href="@{/admin/orderings}">
+    All orderings
   </a>
   <table>
     <thead class="table-dark">
@@ -47,8 +47,14 @@
       <td th:text="${book.author}" /></td>
       <td th:text="${book.amountAvailable}" /></td>
       <td>
-        <a th:href="@{/user/addToCart(bookId=${book.id})}">
-          Add to cart
+        <a th:href="@{/admin/books/delete(bookId=${book.id})}">
+          Remove from books
+        </a>
+        <a th:href="@{/admin/books/increase(bookId=${book.id})}">
+          Decrease amount available
+        </a>
+        <a th:href="@{/admin/books/descrease(bookId=${book.id})}">
+          Increase amount available
         </a>
       </td>
     </tr>

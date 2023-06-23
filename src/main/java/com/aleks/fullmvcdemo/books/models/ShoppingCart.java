@@ -31,4 +31,17 @@ public class ShoppingCart {
         }
         this.orderings.add(ordering);
     }
+    public void addBook(Book book){
+        if(this.books==null){
+            this.books = new ArrayList<>();
+        }
+        this.books.add(book);
+    }
+    public void removeBook(Book book){
+        if(this.books==null){
+            this.books = new ArrayList<>();
+            return;
+        }
+        this.books.remove(book);
+    }
 }

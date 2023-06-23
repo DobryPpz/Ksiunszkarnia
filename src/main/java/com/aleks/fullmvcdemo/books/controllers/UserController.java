@@ -15,10 +15,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -55,6 +52,12 @@ public class UserController {
         String username = authentication.getName();
         User user = userService.findUserByEmail(username);
         ShoppingCart shoppingCart = user.getShoppingCart();
+        if(shoppingCart==null){
+            shoppingCart = new ShoppingCart();
+            user.setShoppingCart(shoppingCart);
+            shoppingCartService.save(shoppingCart);
+            userService.save(user);
+        }
         List<Book> booksInCart = shoppingCart.getBooks();
         model.addAttribute("books",booksInCart);
         return "cart";
@@ -66,8 +69,52 @@ public class UserController {
         String username = authentication.getName();
         User user = userService.findUserByEmail(username);
         ShoppingCart shoppingCart = user.getShoppingCart();
+        if(shoppingCart==null){
+            shoppingCart = new ShoppingCart();
+            user.setShoppingCart(shoppingCart);
+            shoppingCartService.save(shoppingCart);
+            userService.save(user);
+        }
         List<Ordering> orderings = shoppingCart.getOrderings();
         model.addAttribute("orderings",orderings);
         return "user-orders";
+    }
+
+    @GetMapping("/addToCart")
+    public String addToCart(@RequestParam("bookId") long bookId, Model model){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();
+        User user = userService.findUserByEmail(username);
+        ShoppingCart shoppingCart = user.getShoppingCart();
+        if(shoppingCart==null){
+            shoppingCart = new ShoppingCart();
+            user.setShoppingCart(shoppingCart);
+            shoppingCartService.save(shoppingCart);
+            userService.save(user);
+        }
+        Book book = bookService.findById(bookId);
+        shoppingCart.addBook(book);
+        shoppingCartService.save(shoppingCart);
+        userService.save(user);
+        System.out.println("book: "+book.getAuthor()+book.getTitle());
+        System.out.println("user: "+user.getUsername());
+        return "redirect:/user/cart";
+    }
+    @GetMapping("/removeFromCart")
+    public String removeFromCart(@RequestParam("bookId") long bookId, Model model){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();
+        User user = userService.findUserByEmail(username);
+        ShoppingCart shoppingCart = user.getShoppingCart();
+        if(shoppingCart==null){
+            shoppingCart = new ShoppingCart();
+            user.setShoppingCart(shoppingCart);
+            shoppingCartService.save(shoppingCart);
+            userService.save(user);
+        }
+        Book book = bookService.findById(bookId);
+        shoppingCart.removeBook(book);
+        shoppingCartService.save(shoppingCart);
+        return "redirect:/user/cart";
     }
 }
