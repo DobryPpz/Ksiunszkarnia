@@ -27,7 +27,6 @@ public class User {
     private String password;
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
     private ShoppingCart shoppingCart;
-
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinTable(
             name = "user_roles",

@@ -21,32 +21,20 @@
 
 <div>
   <div>
-    <h2>Cart:</h2>
+    <h2>Books:</h2>
   </div>
-  <a th:href="@{/user/placeOrder}">
-    place order
-  </a>
   <table class="table table-bordered table-striped">
     <thead class="table-dark">
     <tr>
-      <th>Title</th>
-      <th>Author</th>
-      <th>Amount Available</th>
-      <th>Action</th>
+      <th>Id</th>
+      <th>State</th>
     </tr>
     </thead>
 
     <tbody>
-    <tr th:each="book : ${books}">
-
-      <td th:text="${book.title}" /></td>
-      <td th:text="${book.author}" /></td>
-      <td th:text="${book.amountAvailable}" /></td>
-      <td>
-        <a th:href="@{/user/removeFromCart(bookId=${book.id})}">
-          remove from cart
-        </a>
-      </td>
+    <tr th:each="ordering : ${orderings}">
+      <td th:text="${ordering.id}" /></td>
+      <td th:text="${ordering.state}" /></td>
     </tr>
     </tbody>
   </table>

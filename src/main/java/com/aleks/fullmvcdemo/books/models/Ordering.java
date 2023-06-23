@@ -14,7 +14,9 @@ public class Ordering {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "shopping_cart")
     private ShoppingCart shoppingCart;
+    @Column(nullable = false)
+    private OrderingState orderingState;
 }

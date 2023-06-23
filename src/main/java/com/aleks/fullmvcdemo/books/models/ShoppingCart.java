@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Getter
@@ -22,6 +23,12 @@ public class ShoppingCart {
     private User user;
     @ManyToMany
     private List<Book> books;
-    @OneToOne(mappedBy = "shoppingCart", cascade = CascadeType.ALL)
-    private Ordering ordering;
+    @OneToMany(mappedBy = "shoppingCart", cascade = CascadeType.ALL)
+    private List<Ordering> orderings;
+    public void addOrdering(Ordering ordering){
+        if(this.orderings==null){
+            this.orderings = new ArrayList<>();
+        }
+        this.orderings.add(ordering);
+    }
 }
